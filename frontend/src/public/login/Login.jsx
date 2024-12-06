@@ -18,11 +18,15 @@ export default function Login() {
     e.preventDefault();
 
     doLogin(email, password)
-      .then((isValid) => {
-        if (isValid) history.push("/settings");
+      .then((response) => {
+        if (response) {
+          localStorage.setItem("token", response.token);
+          history.push("/settings");
+        }
       })
       .catch((err) => {
-        setError(err);
+        console.log(err.response ? err.response.data : err.message);
+        setError("E-mail e/ou senha inválidos!");
       });
   }
 
